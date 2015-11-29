@@ -15,16 +15,16 @@ Status:
 docker pull qxip/captagent-docker
 ```
 
-### Run latest
+### Run latest using --net=host
 ```
-docker run -tid --name captagent6 qxip/captagent-docker
+docker run -tid --name captagent6 --net=host qxip/captagent-docker
 ```
 
 ### Local Build & Test
 ```
 git clone https://github.com/qxip/captagent-docker; cd captagent-docker
 docker build --tag="qxip/captagent-docker:local" ./
-docker run -t -i qxip/captagent-docker:local
+docker run --net=host -t -i qxip/captagent-docker:local
 ```
 
 
