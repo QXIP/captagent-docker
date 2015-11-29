@@ -1,5 +1,4 @@
-
-![homer](http://i.imgur.com/ViXcGAD.png)
+![captagent](http://i.imgur.com/3kEIR.png)
 
 # CAPTAGENT 6 Docker
 http://sipcapture.org
