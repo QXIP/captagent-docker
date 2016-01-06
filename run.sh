@@ -35,6 +35,18 @@ EOF
 exit 0;
 }
 
+# Sanity (ha ha ha) checks
+
+if stat /var/run/captagent.pid ; then
+  CAPTAGENT_PID=$(cat /var/run/captagent.pid)
+  if [[ "$CAPTAGENT_PID" != "" && "$( ps -e | grep $CAPTAGENT_PID | grep captagent)" != "" ]] ; then
+    echo "O M Geeze. Still running! check your /var/run/captagent.pid"
+    exit 2
+  else
+    rm /var/run/captagent.pid
+  fi
+fi
+
 # Set options
 
 while true; do
