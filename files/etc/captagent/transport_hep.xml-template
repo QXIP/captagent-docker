@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<document type="captagent_module/xml">
+    <module name="transport_hep" description="HEP Protocol" serial="2014010402">
+	<profile name="hepsocket" description="Transport HEP" enable="true" serial="2014010402">
+	    <settings>
+		<param name="version" value="3"/>
+		<param name="capture-host" value="${CAPTURE_HOST}"/>
+		<param name="capture-port" value="${HOMER_PORT}"/>
+		<param name="capture-proto" value="${HOMER_TRANSPORT_PROTO}"/>
+		<param name="capture-id" value="${HOMER_CAPTURE_ID}"/>
+		<param name="capture-password" value="${HOMER_CAPTUR_PASSWORD}"/>
+		<param name="payload-compression" value="false"/>
+	    </settings>
+	</profile>
+    </module>
+</document>

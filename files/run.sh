@@ -8,9 +8,12 @@ PATH_CAPTAGENT_TRANSPORT_XML=/usr/local/etc/captagent/transport_hep.xml
 # Options, defaults.
 ETHERNET_DEV=${ETHERNET_DEV:-any}
 CAPTURE_HOST=${CAPTURE_HOST:-localhost}
-CAPTURE_PORT=${CAPTURE_PORT:-9060}
-CAPTURE_ID=${CAPTURE_ID:-2001}
-CAPTURE_PASSWORD=${CAPTURE_PASSWORD:-myHep}
+HOMER_PORT=${CAPTURE_PORT:-9060}
+HOMER_TRANSPORT_PROTO=${HOMER_TRANSPORT_PROTO:-tcp}
+HOMER_CAPTURE_ID=${CAPTURE_ID:-2001}
+HOMER_CAPTURE_PASSWORD=${CAPTURE_PASSWORD:-myHep}
+SIP_PORT_CAPTURE_RANGE=${SIP_PORT_CAPTURE_RANGE:-5060-5061}
+RPTC_PORT_CAPTURE_RANGE=${RPTC_PORT_CAPTURE_RANGE:-3000-5000}
 CLI_PASSWORD=${CLI_PASSWORD:-12345}
 CLI_PORT=${CLI_PORT:-8909}
 
@@ -98,14 +101,17 @@ done
 
 # perl -p -i -e "s/\{\{ ETHERNET_DEV \}\}/$ETHERNET_DEV/" $PATH_CAPTAGENT_SOCKET_XML
 
-perl -p -i -e "s/127.0.0.1/$CAPTURE_HOST/" $PATH_CAPTAGENT_TRANSPORT_XML
-perl -p -i -e "s/9061/$CAPTURE_PORT/" $PATH_CAPTAGENT_TRANSPORT_XML
-perl -p -i -e "s/2001/$CAPTURE_ID/" $PATH_CAPTAGENT_TRANSPORT_XML
-perl -p -i -e "s/myHep/$CAPTURE_PASSWORD/" $PATH_CAPTAGENT_TRANSPORT_XML
+#perl -p -i -e "s/127.0.0.1/$CAPTURE_HOST/" $PATH_CAPTAGENT_TRANSPORT_XML
+#perl -p -i -e "s/9061/$CAPTURE_PORT/" $PATH_CAPTAGENT_TRANSPORT_XML
+#perl -p -i -e "s/2001/$CAPTURE_ID/" $PATH_CAPTAGENT_TRANSPORT_XML
+#perl -p -i -e "s/myHep/$CAPTURE_PASSWORD/" $PATH_CAPTAGENT_TRANSPORT_XML
 
 # perl -p -i -e "s/\{\{ CLI_PORT \}\}/$CLI_PORT/" $PATH_CAPTAGENT_CLI_XML
 # perl -p -i -e "s/\{\{ CLI_PASSWORD \}\}/$CLI_PASSWORD/" $PATH_CAPTAGENT_CLI_XML
 
+envsubst </etc/captagent/socket_pcap.xml-template >/etc/captagent/socket_pcap.xml
+envsubst </etc/captagent/transport_hep.xml.template >/etc/captagent/transport_hep.xml
+
 # Finally, run captagent in foreground.
 
-captagent -n
+exec captagent -n
