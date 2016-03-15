@@ -7,7 +7,6 @@ Status:
 
 * [![Build Status](https://travis-ci.org/QXIP/captagent-docker.svg?branch=master)](https://travis-ci.org/QXIP/homer-docker)
 
-* Initial working prototype - Testing Needed!
  
 ### Pull latest
 ```
