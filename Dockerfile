@@ -10,7 +10,7 @@ RUN git clone https://github.com/sipcapture/captagent.git captagent
 
 WORKDIR /usr/src/captagent
 RUN ./build.sh
-RUN ./configure --enable-compression
+RUN ./configure
 RUN make && make install
 
 RUN mkdir -p /usr/lib64; \
