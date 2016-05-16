@@ -13,10 +13,10 @@ RUN ./build.sh
 RUN ./configure
 RUN make && make install
 
-RUN mkdir -p /usr/lib64; \
-    ln -sf /usr/local/lib/captagent /usr/lib64/captagent ; \
-    ln -sf /usr/local/etc/captagent /etc ; \
-    ln -sf /usr/src/captagent/conf/database_hash.xml /etc/captagent/database_hash.xml
+# RUN mkdir -p /usr/lib64; \
+#    ln -sf /usr/local/lib/captagent /usr/lib64/captagent ; \
+#    ln -sf /usr/local/etc/captagent /etc ; \
+#    ln -sf /usr/src/captagent/conf/database_hash.xml /etc/captagent/database_hash.xml
 
 WORKDIR /
 COPY run.sh /
