@@ -3,7 +3,8 @@
 # This runs INSIDE the docker container.
 
 # Location of captagent.xml
-PATH_CAPTAGENT_TRANSPORT_XML=/usr/local/etc/captagent/transport_hep.xml
+PATH_CAPTAGENT_TRANSPORT_XML=/usr/local/captagent/etc/captagent/transport_hep.xml
+PATH_CAPTAGENT_SOCKET_XML=/usr/local/captagent/etc/captagent/socket_pcap.xml
 
 # Options, defaults.
 ETHERNET_DEV=${ETHERNET_DEV:-any}
@@ -11,8 +12,13 @@ CAPTURE_HOST=${CAPTURE_HOST:-localhost}
 CAPTURE_PORT=${CAPTURE_PORT:-9060}
 CAPTURE_ID=${CAPTURE_ID:-2001}
 CAPTURE_PASSWORD=${CAPTURE_PASSWORD:-myHep}
-CLI_PASSWORD=${CLI_PASSWORD:-12345}
-CLI_PORT=${CLI_PORT:-8909}
+
+# Deprecated? Remming out for now...
+# CLI_PASSWORD=${CLI_PASSWORD:-12345}
+# CLI_PORT=${CLI_PORT:-8909}
+# and for reference...
+# --clipassword -c        CLI password (default: 12345)
+# --cliport -o            CLI port (default: 8909)
 
 # Show help with --help
 
@@ -28,8 +34,6 @@ It then kicks off the captagent script in the foreground.
     --captureport -p        Homer SIP capture port (default: 9060)
     --captureid -i          Homer capture id (default: 2001)
     --capturepassword -w    Homer capture password (default: myHep)
-    --clipassword -c        CLI password (default: 12345)
-    --cliport -o            CLI port (default: 8909)
 
 EOF
 exit 0;
@@ -60,20 +64,19 @@ while true; do
       echo "CAPTURE_ID set to: $CAPTURE_ID";
       shift 2 ;;
     -w | --capturepassword )
-      if [ "$2" == "" ]; then show_help; fi;
       CAPTURE_PASSWORD=$2;
       echo "CAPTURE_PASSWORD set to: $CAPTURE_PASSWORD";
       shift 2 ;;
-    -c | --clipassword )
-      if [ "$2" == "" ]; then show_help; fi;
-      CLI_PASSWORD=$2;
-      echo "CLI_PASSWORD set to: $CLI_PASSWORD";
-      shift 2 ;;
-    -o | --cliport )
-      if [ "$2" == "" ]; then show_help; fi;
-      CLI_PORT=$2;
-      echo "CLI_PORT set to: $CLI_PORT";
-      shift 2 ;;
+    # -c | --clipassword )
+    #   if [ "$2" == "" ]; then show_help; fi;
+    #   CLI_PASSWORD=$2;
+    #   echo "CLI_PASSWORD set to: $CLI_PASSWORD";
+    #   shift 2 ;;
+    # -o | --cliport )
+    #   if [ "$2" == "" ]; then show_help; fi;
+    #   CLI_PORT=$2;
+    #   echo "CLI_PORT set to: $CLI_PORT";
+    #   shift 2 ;;
     --help )
        	show_help;
        	exit 0 ;;
@@ -84,7 +87,7 @@ done
 
 # Replace values in configuration defaults
 
-# perl -p -i -e "s/\{\{ ETHERNET_DEV \}\}/$ETHERNET_DEV/" $PATH_CAPTAGENT_SOCKET_XML
+perl -p -i -e "s/eth0/$ETHERNET_DEV/" $PATH_CAPTAGENT_SOCKET_XML
 
 perl -p -i -e "s/127.0.0.1/$CAPTURE_HOST/" $PATH_CAPTAGENT_TRANSPORT_XML
 perl -p -i -e "s/9061/$CAPTURE_PORT/" $PATH_CAPTAGENT_TRANSPORT_XML
@@ -96,4 +99,4 @@ perl -p -i -e "s/myHep/$CAPTURE_PASSWORD/" $PATH_CAPTAGENT_TRANSPORT_XML
 
 # Finally, run captagent in foreground.
 
-captagent -n
+/usr/local/captagent/bin/captagent -n
