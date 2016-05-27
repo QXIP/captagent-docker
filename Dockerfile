@@ -7,7 +7,7 @@ RUN apt-get update -qq && apt-get install --no-install-recommends --no-install-s
 
 WORKDIR /usr/src
 ENV captagent_sha1 cf757a2e0bb883146e0178d15ee3659c03d9fd6c
-RUN git clone --branch $captagent_version https://github.com/sipcapture/captagent.git captagent && cd captagent && git reset --hard $captagent_sha1
+RUN git clone https://github.com/sipcapture/captagent.git captagent && cd captagent && git reset --hard $captagent_sha1
 
 WORKDIR /usr/src/captagent
 RUN ./build.sh
