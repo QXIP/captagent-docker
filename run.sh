@@ -3,24 +3,15 @@
 # This runs INSIDE the docker container.
 
 # Location of captagent.xml
-PATH_CAPTAGENT_XML=/usr/local/captagent/etc/captagent/captagent.xml
 PATH_CAPTAGENT_TRANSPORT_XML=/usr/local/captagent/etc/captagent/transport_hep.xml
 PATH_CAPTAGENT_SOCKET_XML=/usr/local/captagent/etc/captagent/socket_pcap.xml
-PATH_SIP_CAPTURE_PLAN=/usr/local/captagent/etc/captagent/captureplans/sip_capture_plan.cfg
-
-# Autogenerate CAPTURE_ID
-export HOSTID=$(printf "%04i\n" 0x$(ip -o link show|grep $(ip route list match 0/0|awk '{print $5}')|grep -Po 'ether \K[^ ]*'|sed 's,:,,g'))
-export CAPTURE_SET=${HOSTID:2:4}
 
 # Options, defaults.
 ETHERNET_DEV=${ETHERNET_DEV:-any}
 CAPTURE_HOST=${CAPTURE_HOST:-localhost}
 CAPTURE_PORT=${CAPTURE_PORT:-9060}
-CAPTURE_ID=${CAPTURE_ID:-${CAPTURE_SET}}
+CAPTURE_ID=${CAPTURE_ID:-2001}
 CAPTURE_PASSWORD=${CAPTURE_PASSWORD:-myHep}
-RTCP_ENABLE=${RTCP_ENABLE:-false}
-RTCP_PORTRANGE=${RTCP_PORTRANGE:-5060-50000}
-LOG_LEVEL=${LOG_LEVEL:-3}
 
 # Deprecated? Remming out for now...
 # CLI_PASSWORD=${CLI_PASSWORD:-12345}
@@ -95,11 +86,8 @@ while true; do
 done
 
 # Replace values in configuration defaults
-perl -p -i -e "s/debug\" value=\"./debug\" value=\"${LOG_LEVEL}/" $PATH_CAPTAGENT_XML
 
 perl -p -i -e "s/eth0/$ETHERNET_DEV/" $PATH_CAPTAGENT_SOCKET_XML
-perl -p -i -e "s/RTCP Socket\" enable=\"false/RTCP Socket\" enable=\"${RTCP_ENABLE}/i" $PATH_CAPTAGENT_SOCKET_XML
-perl -p -i -e "s/5060-50000/${RTCP_PORTRANGE}/" $PATH_CAPTAGENT_SOCKET_XML
 
 perl -p -i -e "s/127.0.0.1/$CAPTURE_HOST/" $PATH_CAPTAGENT_TRANSPORT_XML
 perl -p -i -e "s/9061/$CAPTURE_PORT/" $PATH_CAPTAGENT_TRANSPORT_XML
@@ -108,10 +96,6 @@ perl -p -i -e "s/myHep/$CAPTURE_PASSWORD/i" $PATH_CAPTAGENT_TRANSPORT_XML
 
 # perl -p -i -e "s/\{\{ CLI_PORT \}\}/$CLI_PORT/" $PATH_CAPTAGENT_CLI_XML
 # perl -p -i -e "s/\{\{ CLI_PASSWORD \}\}/$CLI_PASSWORD/" $PATH_CAPTAGENT_CLI_XML
-
-# Enable RTCP in sip capture plan.
-[ "${RTCP_ENABLE}" == "true" ] &&\
-echo "$(awk '/sip_has_sdp/{c=8}c-->0{sub("# ?","")} {print}' $PATH_SIP_CAPTURE_PLAN)" > $PATH_SIP_CAPTURE_PLAN
 
 # Finally, run captagent in foreground.
 
