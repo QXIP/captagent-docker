@@ -9,8 +9,8 @@ PATH_CAPTAGENT_SOCKET_XML=/usr/local/captagent/etc/captagent/socket_pcap.xml
 PATH_SIP_CAPTURE_PLAN=/usr/local/captagent/etc/captagent/captureplans/sip_capture_plan.cfg
 
 # Autogenerate CAPTURE_ID
-export HOSTID=$(printf "%04i\n" 0x$(ip -o link show|grep $(ip route list match 0/0|awk '{print $5}')|grep -Po 'ether \K[^ ]*'|sed 's,:,,g'))
-export CAPTURE_SET=${HOSTID:2:4}
+export HOSTID=$(printf "%04i\n" 0x$(ip -o link show|grep $(ip route list match 0/0|awk '{print $5}')|grep -m1 -Po 'ether \K[^ ]*'|sed 's,:,,g'))
+export CAPTURE_SET=1${HOSTID:2:3}
 
 # Options, defaults.
 ETHERNET_DEV=${ETHERNET_DEV:-any}
