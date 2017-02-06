@@ -115,4 +115,4 @@ echo "$(awk '/sip_has_sdp/{c=8}c-->0{sub("# ?","")} {print}' $PATH_SIP_CAPTURE_P
 
 # Finally, run captagent in foreground.
 
-/usr/local/captagent/bin/captagent -n
+/usr/local/captagent/sbin/captagent -n
