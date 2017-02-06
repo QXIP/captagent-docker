@@ -5,7 +5,7 @@ http://sipcapture.org
 
 Status: 
 
-* [![Build Status](https://travis-ci.org/QXIP/captagent-docker.svg?branch=master)](https://travis-ci.org/QXIP/homer-docker)
+* [![Build Status](https://travis-ci.org/netaskd/captagent-docker.svg?branch=master)](https://travis-ci.org/netaskd/captagent-docker)
 
  
 ### Pull latest
