@@ -5,7 +5,7 @@ http://sipcapture.org
 
 Status: 
 
-* [![Build Status](https://travis-ci.org/QXIP/captagent-docker.svg?branch=master)](https://travis-ci.org/QXIP/homer-docker)
+* [![Build Status](https://travis-ci.org/netaskd/captagent-docker.svg?branch=master)](https://travis-ci.org/netaskd/captagent-docker)
 
  
 ### Pull latest
@@ -25,4 +25,22 @@ docker build --tag="qxip/captagent-docker:local" ./
 docker run --net=host -t -i qxip/captagent-docker:local
 ```
 
+### Example docker-compose content
+```
+captagent:
+  container_name: captagent
+  image: qxip/captagent-docker
+  restart: always
+  net: host
+  environment:
+    - TERM=xterm
+    - ETHERNET_DEV=any
+    - CAPTURE_HOST=homer.domain.com
+    - CAPTURE_PORT=9060
+    - CAPTURE_PASSWORD=myHep
+    - RTCP_ENABLE=true
+    - RTCP_PORTRANGE=10000-20000
+    - LOG_LEVEL=3
+    - CAPTURE_ID=1234
+```
 
