@@ -1,7 +1,7 @@
 FROM debian:jessie
 MAINTAINER Lorenzo Mangani
 ENV DEBIAN_FRONTEND noninteractive
-ENV captagent_version 6.2
+ENV captagent_version 6.3
 
 RUN apt-get update -qq && apt-get install --no-install-recommends --no-install-suggests -yqq ca-certificates git make m4 automake autoconf libtool libcap-dev libexpat-dev libpcap-dev zlib1g-dev openssl libssl-dev bison flex  libjson0 libjson0-dev libcurl4-gnutls-dev libjson-c-dev libuv-dev && rm -rf /var/lib/apt/lists/*
 
