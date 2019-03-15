@@ -42,5 +42,6 @@ captagent:
     - RTCP_PORTRANGE=10000-20000
     - LOG_LEVEL=3
     - CAPTURE_ID=1234
+    - NAT_SUPPORT=true
 ```
 

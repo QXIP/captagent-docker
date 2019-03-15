@@ -6,6 +6,7 @@
 PATH_CAPTAGENT_XML=/usr/local/captagent/etc/captagent/captagent.xml
 PATH_CAPTAGENT_TRANSPORT_XML=/usr/local/captagent/etc/captagent/transport_hep.xml
 PATH_CAPTAGENT_SOCKET_XML=/usr/local/captagent/etc/captagent/socket_pcap.xml
+PATH_CAPTAGENT_DBHASH_XML=/usr/local/captagent/etc/captagent/database_hash.xml
 PATH_SIP_CAPTURE_PLAN=/usr/local/captagent/etc/captagent/captureplans/sip_capture_plan.cfg
 
 # Autogenerate CAPTURE_ID
@@ -21,6 +22,7 @@ CAPTURE_PASSWORD=${CAPTURE_PASSWORD:-myHep}
 RTCP_ENABLE=${RTCP_ENABLE:-false}
 RTCP_PORTRANGE=${RTCP_PORTRANGE:-5060-50000}
 LOG_LEVEL=${LOG_LEVEL:-3}
+NAT_SUPPORT=${NAT_SUPPORT:-false}
 
 # Deprecated? Remming out for now...
 # CLI_PASSWORD=${CLI_PASSWORD:-12345}
@@ -105,6 +107,7 @@ perl -p -i -e "s/127.0.0.1/$CAPTURE_HOST/" $PATH_CAPTAGENT_TRANSPORT_XML
 perl -p -i -e "s/9061/$CAPTURE_PORT/" $PATH_CAPTAGENT_TRANSPORT_XML
 perl -p -i -e "s/2001/$CAPTURE_ID/" $PATH_CAPTAGENT_TRANSPORT_XML
 perl -p -i -e "s/myHep/$CAPTURE_PASSWORD/i" $PATH_CAPTAGENT_TRANSPORT_XML
+perl -p -i -e "s/nat-mode\" value=\"false/nat-mode\" value=\"${NAT_SUPPORT}/i" $PATH_CAPTAGENT_DBHASH_XML
 
 # perl -p -i -e "s/\{\{ CLI_PORT \}\}/$CLI_PORT/" $PATH_CAPTAGENT_CLI_XML
 # perl -p -i -e "s/\{\{ CLI_PASSWORD \}\}/$CLI_PASSWORD/" $PATH_CAPTAGENT_CLI_XML
