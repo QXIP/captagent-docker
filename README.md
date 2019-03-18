@@ -39,8 +39,8 @@ captagent:
     - CAPTURE_PORT=9060
     - CAPTURE_PASSWORD=myHep
     - RTCP_ENABLE=true
-    - RTCP_PORTRANGE=10000-20000
     - LOG_LEVEL=3
     - CAPTURE_ID=1234
+    - NAT_SUPPORT=true
 ```
 
